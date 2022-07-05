@@ -1,8 +1,0 @@
-CRITICAL - 2022-06-10 23:59:31 --> Undefined property: App\Controllers\Home::$load
-#0 D:\xampp\codeigniter\project-root\app\Controllers\Home.php(14): CodeIgniter\Debug\Exceptions->errorHandler(8, 'Undefined prope...', 'D:\\xampp\\codeig...', 14, Array)
-#1 D:\xampp\codeigniter\project-root\vendor\codeigniter4\framework\system\CodeIgniter.php(809): App\Controllers\Home->__construct()
-#2 D:\xampp\codeigniter\project-root\vendor\codeigniter4\framework\system\CodeIgniter.php(410): CodeIgniter\CodeIgniter->createController()
-#3 D:\xampp\codeigniter\project-root\vendor\codeigniter4\framework\system\CodeIgniter.php(326): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
-#4 D:\xampp\codeigniter\project-root\public\index.php(37): CodeIgniter\CodeIgniter->run()
-#5 D:\xampp\codeigniter\project-root\vendor\codeigniter4\framework\system\Commands\Server\rewrite.php(43): require_once('D:\\xampp\\codeig...')
-#6 {main}
