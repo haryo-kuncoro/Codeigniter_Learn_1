@@ -1,7 +1,7 @@
 # CodeIgniter_Learn_1
 
 Saya membagikan ini untuk sama-sama belajar sambil share. <br>
-kuncinya ada di file <b>Routes.dart</b>
+kuncinya ada di file <b>Routes.php</b>
 
 ## Terminal Command
 
@@ -13,6 +13,6 @@ kuncinya ada di file <b>Routes.dart</b>
 
 - Untuk membuat API sederhana, silahkan dicontoh file diatas
 - `username` dan `password` merupakan kunci otoritas ke database. Jika sesuai, maka akan memunculkan datanya
-- database silahkan di execute <b>db_belajar_ci.sql</b>
+- database silahkan di execute <b>belajar_ci.sql</b>
 
 #Semoga_bermanfaat
