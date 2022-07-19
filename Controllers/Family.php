@@ -56,7 +56,7 @@ class Family extends ResourceController
                 ];
             }
             
-            $array = ['KD_USER =' => $user,'PWD =' => $pass]; 
+            $array = ['KD_USER =' => $user,'PWD =' => sha1($pass)]; 
             $builder->where($array);
             $builder->update($data);
 
@@ -139,13 +139,6 @@ class Family extends ResourceController
                 'KD_USER'  => $this->request->getVar('user'),
             ];
             $model->insert($data);
-            // $response = [
-            //     'status'   => 201,
-            //     'error'    => null,
-            //     'messages' => [
-            //         'success' => 'Data berhasil ditambahkan.'
-            //     ]
-            // ];
             return $this->respondCreated('Data berhasil ditambahkan');
         }
     }
@@ -165,13 +158,6 @@ class Family extends ResourceController
                 'KD_USER'  => $this->request->getVar('user'),
             ];
             $model->update($id, $data);
-            // $response = [
-            //     'status'   => 200,
-            //     'error'    => null,
-            //     'messages' => [
-            //         'success' => 'Data berhasil diubah.'
-            //     ]
-            // ];
             return $this->respondUpdated('Data berhasil diubah');
         }
     }
@@ -186,13 +172,6 @@ class Family extends ResourceController
             $data = $model->where('id', $id)->delete($id);
             if ($data) {
                 $model->delete($id);
-                // $response = [
-                //     'status'   => 200,
-                //     'error'    => null,
-                //     'messages' => [
-                //         'success' => 'Data berhasil dihapus.'
-                //     ]
-                // ];
                 return $this->respondDeleted('Data berhasil dihapus');
             } else {
                 return $this->failNotFound('Data tidak ditemukan');
