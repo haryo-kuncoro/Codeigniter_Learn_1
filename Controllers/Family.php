@@ -92,7 +92,7 @@ class Family extends ResourceController
         }else{
             $model = new FamilyModel();
             // $data = $this->ses_data;
-            $data['family'] = $model->orderBy('id', 'ASC')->findAll();
+            $data['family'] = $model->where('kd_user', $this->ses_data['user_name'])->findAll();
             return $this->respond($data);
         }
     }
@@ -114,7 +114,8 @@ class Family extends ResourceController
             }else{
     
                 $model = new FamilyModel();
-                $data = $model->where('id', $id)->first();
+                $array = ['id =' => $id, 'kd_user =' => $this->ses_data['user_name']];
+                $data = $model->where($array)->first();
                 if ($data) {
                     return $this->respond($data);
                 } else {
@@ -136,7 +137,7 @@ class Family extends ResourceController
                 'NAMA_LENGKAP' => $this->request->getVar('namalengkap'),
                 'TGL_LAHIR'  => $this->request->getVar('tgllahir'),
                 'STATUS' => $this->request->getVar('status'),
-                'KD_USER'  => $this->request->getVar('user'),
+                'KD_USER'  => $this->ses_data['user_name'],
             ];
             $model->insert($data);
             return $this->respondCreated('Data berhasil ditambahkan');
@@ -155,9 +156,12 @@ class Family extends ResourceController
                 'NAMA_LENGKAP' => $this->request->getVar('namalengkap'),
                 'TGL_LAHIR'  => $this->request->getVar('tgllahir'),
                 'STATUS' => $this->request->getVar('status'),
-                'KD_USER'  => $this->request->getVar('user'),
+                'KD_USER'  => $this->ses_data['user_name'],
             ];
-            $model->update($id, $data);
+            $array = ['id =' => $id, 'kd_user =' => $this->ses_data['user_name']];
+            $model->where($array);
+            $model->update($data);
+
             return $this->respondUpdated('Data berhasil diubah');
         }
     }
@@ -169,9 +173,11 @@ class Family extends ResourceController
             return $this->failUnauthorized('Login Required');
         }else{
             $model = new FamilyModel();
-            $data = $model->where('id', $id)->delete($id);
+            $array = ['id =' => $id, 'kd_user =' => $this->ses_data['user_name']];
+            $data = $model->where($array)->delete();
             if ($data) {
-                $model->delete($id);
+                $model->where($array);
+                $model->delete();
                 return $this->respondDeleted('Data berhasil dihapus');
             } else {
                 return $this->failNotFound('Data tidak ditemukan');
