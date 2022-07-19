@@ -6,6 +6,7 @@ use App\Models\FamilyModel;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\HTTP\Request;
+use App\Models\UserModel;
 
 
 class Family extends ResourceController
@@ -108,6 +109,7 @@ class Family extends ResourceController
                 $data = $this->ses_data;
                 return $this->respond($data);
             }
+
         }else{
             if ($this->checkToken()=='') {
                 return $this->failUnauthorized('Login Required');
@@ -129,19 +131,31 @@ class Family extends ResourceController
     // create
     public function create()
     {
-        if ($this->checkToken()=='') {
-            return $this->failUnauthorized('Login Required');
-        }else{
-            $model = new FamilyModel();
+        if ($this->request->getVar('register') == '1'){
+            $model = new UserModel();
             $data = [
-                'NAMA_LENGKAP' => $this->request->getVar('namalengkap'),
-                'TGL_LAHIR'  => $this->request->getVar('tgllahir'),
-                'STATUS' => $this->request->getVar('status'),
-                'KD_USER'  => $this->ses_data['user_name'],
+                'KD_USER' => $this->request->getVar('username'),
+                'NM_USER'  => $this->request->getVar('namalengkap'),
+                'PWD' => sha1($this->request->getVar('password')),
             ];
             $model->insert($data);
-            return $this->respondCreated('Data berhasil ditambahkan');
+            return $this->respondCreated('Register berhasil');
+        }else{
+            if ($this->checkToken()=='') {
+                return $this->failUnauthorized('Login Required');
+            }else{
+                $model = new FamilyModel();
+                $data = [
+                    'NAMA_LENGKAP' => $this->request->getVar('namalengkap'),
+                    'TGL_LAHIR'  => $this->request->getVar('tgllahir'),
+                    'STATUS' => $this->request->getVar('status'),
+                    'KD_USER'  => $this->ses_data['user_name'],
+                ];
+                $model->insert($data);
+                return $this->respondCreated('Data berhasil ditambahkan');
+            }
         }
+        
     }
 
     // update
