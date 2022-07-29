@@ -3,10 +3,12 @@
 namespace App\Controllers;
 
 use App\Models\FamilyModel;
+use App\Models\UserModel;
+use App\Models\NewsModel;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\HTTP\Request;
-use App\Models\UserModel;
+
 
 
 class Family extends ResourceController
@@ -93,7 +95,7 @@ class Family extends ResourceController
         }else{
             $model = new FamilyModel();
             // $data = $this->ses_data;
-            $data['family'] = $model->where('kd_user', $this->ses_data['user_name'])->findAll();
+            $data = $model->where('kd_user', $this->ses_data['user_name'])->findAll();
             return $this->respond($data);
         }
     }
@@ -103,10 +105,22 @@ class Family extends ResourceController
     {
         if ($id == 'login'){
             if ($this->checkToken()=='') {
-                return $this->failUnauthorized('Login Failed');
+                return $this->failUnauthorized('Login Required');
             }else{
                 $model = new FamilyModel();
                 $data = $this->ses_data;
+                return $this->respond($data);
+            }
+
+        }elseif ($id == 'news'){
+            if ($this->checkToken()=='') {
+                return $this->failUnauthorized('Login Required');
+            }else{
+                $model = new NewsModel();
+                $array = ['kategori =' => '1', 'aktif =' => 'y'];
+                
+                $data = $model->where($array);
+                $data = $model->orderBy('PUBLISHDATE','desc')->findAll();
                 return $this->respond($data);
             }
 
